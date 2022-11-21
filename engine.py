@@ -1,4 +1,5 @@
 import face_recognition as fr
+import os
 
 def reconhece_rosto(url_foto):
     foto = fr.load_image_file(url_foto)
@@ -12,10 +13,17 @@ def getRostos():
     rostos_reconhecidos = []
     nome_rostos = []
 
-    eu = reconhece_rosto("./img/eu.jpeg")
+    rosto = []
+    matricula = ""
+    for arqs in os.walk(f'{os.curdir}'):
+        for imgs in arqs[2]:
+            print(imgs)
+            rosto = reconhece_rosto(f"{imgs}")
+            matricula = str(imgs)
+            print(rosto)
 
-    if eu[0]:
-        rostos_reconhecidos.append(eu[1][0])
-        nome_rostos.append("Lucca")
+    if rosto[0]:
+        rostos_reconhecidos.append(rosto[1][0])
+        nome_rostos.append(f"{matricula}")
     
     return rostos_reconhecidos, nome_rostos
