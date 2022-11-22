@@ -15,15 +15,11 @@ def getRostos():
 
     rosto = []
     matricula = ""
+
     for arqs in os.walk(f'{os.curdir}'):
         for imgs in arqs[2]:
-            print(imgs)
             rosto = reconhece_rosto(f"{imgs}")
-            matricula = str(imgs)
-            print(rosto)
-
-    if rosto[0]:
-        rostos_reconhecidos.append(rosto[1][0])
-        nome_rostos.append(f"{matricula}")
+            nome_rostos.append(f"{imgs}")
+            rostos_reconhecidos.append(rosto[1][0])
     
     return rostos_reconhecidos, nome_rostos
