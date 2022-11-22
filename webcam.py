@@ -3,6 +3,10 @@ import face_recognition as fr
 import cv2
 from engine import getRostos
 from db_connector import connection
+import os
+
+ROOT_DIR = os.path.abspath(os.curdir)
+os.chdir(fr'{ROOT_DIR}\img')
 
 rostos_conhecidos, nomes_dos_rostos = getRostos()
 
@@ -24,7 +28,7 @@ while True:
         melhor_id = np.argmin(face_distances)
         if resultados[melhor_id]:
             nome = nomes_dos_rostos[melhor_id]
-            connection(str(nome))
+            #connection(str(nome))
         else:
             nome = "Desconhecido"
             #chamar para adicionar rosto na interface
