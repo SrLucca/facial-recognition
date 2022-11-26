@@ -15,4 +15,5 @@ def register_face(matricula):
             resultado = resultados[i]
             if(resultado):
                 print(f"Rosto do {matricula} foi reconhecido")
+                exit(0)
     return
