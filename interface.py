@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 from take_photo import new_user
+from db_connector import register_user
 
 
 sg.theme('DarkPurple4')   # Add a touch of color
@@ -9,6 +10,7 @@ title_font = ('Courier',20)
 layout = [  [sg.Text('Menos é Mais', justification='center', size=(100,1), font=title_font)],
             [sg.Text("")],
             [sg.Text("Matricula"), sg.Input()],
+            [sg.Text("Email"), sg.Input()],
             [sg.Button('Cadastrar rosto', size=(100,1))],
             [sg.Button('Cancel', size=(100,1))], ]
 
@@ -20,7 +22,9 @@ while True:
     if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
         break
     else:
+        register_user(values[0], values[1])
         new_user(values[0])
+        
         print('You entered ')
 
 window.close()
