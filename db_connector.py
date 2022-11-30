@@ -1,12 +1,14 @@
 import mariadb
 import sys
 
-def connection(nome):
+def connection(n_matricula):
+    dados = 0
+
     try:
         conn = mariadb.connect(
             user="root",
             password="senhaforte",
-            host="192.168.15.8",
+            host="localhost",
             port=3306,
             database="ru_zero"
 
@@ -19,8 +21,16 @@ def connection(nome):
     cur = conn.cursor()
 
     try:
-        cur.execute(f"SELECT numero_matricula FROM pessoa WHERE nome='{nome}'")
+        cur.execute(f"SELECT penalidades FROM pessoa WHERE numero_matricula='{n_matricula}'")
         for data in cur:
-            print(data)
+            penalidade = data
+        nova_penalidade = (int(penalidade[0]) + 1)
+        cur.execute(f"UPDATE ru_zero.pessoa SET penalidades={nova_penalidade} WHERE numero_matricula = '{n_matricula}'")
+        cur.execute(f"SELECT email, penalidades FROM pessoa WHERE numero_matricula='{n_matricula}'")
+        for data in cur:
+            dados = data
+
     except:
         return print('Cadastro não encontrado')
+
+    return dados
