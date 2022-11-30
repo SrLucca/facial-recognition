@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 from send_email import send_warning
 from webcam import recognition
-from db_connector import connection
+from db_connector import wrning_connection
 
 sg.theme('DarkPurple4')   # Add a touch of color
 
@@ -25,7 +25,7 @@ while True:
         matricula_corrigida = matricula.split(".")
         peso = int(values[0])
         if peso >= 300:
-            dados_usuario = connection(int(matricula_corrigida[0]))
+            dados_usuario = wrning_connection(int(matricula_corrigida[0]))
             send_warning(dados_usuario[0], peso, dados_usuario[1])
         else:
             pass
