@@ -4,49 +4,56 @@ import cv2
 from engine import getRostos
 from db_connector import connection
 import os
+import time
 
-ROOT_DIR = os.path.abspath(os.curdir)
-os.chdir(fr'{ROOT_DIR}\img')
+def recognition():
+    ROOT_DIR = os.path.abspath(os.curdir)
+    os.chdir(fr'{ROOT_DIR}\img')
 
-rostos_conhecidos, nomes_dos_rostos = getRostos()
+    rostos_conhecidos, nomes_dos_rostos = getRostos()
 
-video_capture = cv2.VideoCapture(0)
-while True: 
-    ret, frame = video_capture.read()
+    video_capture = cv2.VideoCapture(0)
+    while True: 
+        ret, frame = video_capture.read()
 
-    rgb_frame = frame[:, :, ::-1]
+        rgb_frame = frame[:, :, ::-1]
 
-    localizacao_dos_rostos = fr.face_locations(rgb_frame)
-    rosto_desconhecidos = fr.face_encodings(rgb_frame, localizacao_dos_rostos)
+        localizacao_dos_rostos = fr.face_locations(rgb_frame)
+        rosto_desconhecidos = fr.face_encodings(rgb_frame, localizacao_dos_rostos)
 
-    for (top, right, bottom, left), rosto_desconhecido in zip(localizacao_dos_rostos, rosto_desconhecidos):
-        resultados = fr.compare_faces(rostos_conhecidos, rosto_desconhecido)
-        print(resultados)
+        for (top, right, bottom, left), rosto_desconhecido in zip(localizacao_dos_rostos, rosto_desconhecidos):
+            resultados = fr.compare_faces(rostos_conhecidos, rosto_desconhecido)
+            print(resultados)
 
-        face_distances = fr.face_distance(rostos_conhecidos, rosto_desconhecido)
-        
-        melhor_id = np.argmin(face_distances)
-        if resultados[melhor_id]:
-            nome = nomes_dos_rostos[melhor_id]
-            #connection(str(nome))
-        else:
-            nome = "Desconhecido"
-            #chamar para adicionar rosto na interface
-        
-        # Ao redor do rosto
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
+            face_distances = fr.face_distance(rostos_conhecidos, rosto_desconhecido)
+            
+            melhor_id = np.argmin(face_distances)
+            if resultados[melhor_id]:
+                nome = nomes_dos_rostos[melhor_id]
+                #connection(str(nome))
+                time.sleep(3)
+                return nome
+                exit(0)
+            else:
+                nome = "Desconhecido"
+                #chamar para adicionar rosto na interface
+            
+            # Ao redor do rosto
+            cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
 
-        # Embaixo
-        cv2.rectangle(frame, (left, bottom -35), (right, bottom), (0, 255, 0), cv2.FILLED)
-        font = cv2.FONT_HERSHEY_SIMPLEX
+            # Embaixo
+            cv2.rectangle(frame, (left, bottom -35), (right, bottom), (0, 255, 0), cv2.FILLED)
+            font = cv2.FONT_HERSHEY_SIMPLEX
 
-        #Texto
-        cv2.putText(frame, nome, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+            #Texto
+            cv2.putText(frame, nome, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
-        cv2.imshow('Webcam_facerecognition', frame)
+            cv2.imshow('Webcam_facerecognition', frame)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
-video_capture.release()
-cv2.destroyAllWindows()
+    video_capture.release()
+    cv2.destroyAllWindows()
+
+    return
