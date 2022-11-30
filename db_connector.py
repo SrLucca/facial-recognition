@@ -1,7 +1,7 @@
 import mariadb
 import sys
 
-def connection(n_matricula):
+def wrning_connection(n_matricula):
     dados = 0
 
     try:
@@ -34,3 +34,28 @@ def connection(n_matricula):
         return print('Cadastro não encontrado')
 
     return dados
+
+def register_user(numero_matricula, email):
+    try:
+        conn = mariadb.connect(
+            user="root",
+            password="senhaforte",
+            host="localhost",
+            port=3306,
+            database="ru_zero"
+
+        )
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        sys.exit(1)
+
+    # Get Cursor
+    cur = conn.cursor()
+
+    try:
+        cur.execute(f"INSERT INTO pessoa(nome, numero_matricula, penalidades, email) VALUES('Marcio','{numero_matricula}',0,'{email}');")
+        conn.commit()
+    except:
+        return print('Cadastro não encontrado')
+
+    return
