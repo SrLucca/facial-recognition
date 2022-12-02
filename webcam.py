@@ -2,7 +2,7 @@ import numpy as np
 import face_recognition as fr
 import cv2
 from engine import getRostos
-from db_connector import connection
+
 import os
 import time
 
@@ -31,9 +31,9 @@ def recognition():
             if resultados[melhor_id]:
                 nome = nomes_dos_rostos[melhor_id]
                 #connection(str(nome))
-                #time.sleep(3)
-                #return nome
-                #exit(0)
+                time.sleep(3)
+                return nome
+                exit(0)
             else:
                 nome = "Desconhecido"
                 #chamar para adicionar rosto na interface
@@ -57,5 +57,3 @@ def recognition():
     cv2.destroyAllWindows()
 
     return
-
-recognition()

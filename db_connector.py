@@ -53,7 +53,7 @@ def register_user(numero_matricula, email):
     cur = conn.cursor()
 
     try:
-        cur.execute(f"INSERT INTO pessoa(nome, numero_matricula, penalidades, email) VALUES('Marcio','{numero_matricula}',0,'{email}');")
+        cur.execute(f"INSERT INTO pessoa(nome, numero_matricula, penalidades, email) VALUES('teste','{numero_matricula}',0,'{email}');")
         conn.commit()
     except:
         return print('Cadastro não encontrado')
