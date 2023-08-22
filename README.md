@@ -1,6 +1,4 @@
 # facial-recognition
- Python facial recognition
-
 IOT in University Restaurant to reduce food waste
 
 This project was developed as the final work of the Operating Systems discipline, and intends to use facial
